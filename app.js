@@ -1,7 +1,30 @@
 let express = require('express')
 let app = express()
+let bodyParser = require('body-parser')
 
-// * 1. nodemon app.js를 이용해서 실행시켜주면 계속 변경내용을 추적해서 알려준다.
+// * nodemon app.js를 이용해서 실행시켜주면 계속 변경내용을 추적해서 알려준다.
 app.listen(3000, () => {
   console.log("start express server 3000");
+})
+
+// * public 아래의 파일을 자동으로 링크 연결이 되게 만들기 위해서 사용함
+// * 아래의 main.html에 연결된 main.js를 자동으로 연결 해준다.
+// * js, css, image등을 static 이라고 함
+app.use(express.static('public'))
+app.use(bodyParser.json())
+// * 아스키형태의 데이터로 인코딩 함
+app.use(bodyParser.urlencoded({extended:true}))
+
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + "/public/main.html")
+  // * res.send("<h1>hi freind!</h1>")
+})
+
+// * url/main에서도 똑같이!
+app.get('/main', (req, res) => {
+  res.sendFile(__dirname + "/public/main.html")
+})
+
+app.post('/email_post', (req, res) => {
+  console.log(req.body);
 })
