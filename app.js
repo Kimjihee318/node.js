@@ -15,16 +15,20 @@ app.use(bodyParser.json())
 // * 아스키형태의 데이터로 인코딩 함
 app.use(bodyParser.urlencoded({extended:true}))
 
+// * view engine은 이것을 쓰겠다.
+app.set('view engine', 'ejs')
+
 app.get('/', (req, res) => {
   res.sendFile(__dirname + "/public/main.html")
   // * res.send("<h1>hi freind!</h1>")
 })
 
-// * url/main에서도 똑같이!
+// * route url/main에서도 똑같이!
 app.get('/main', (req, res) => {
   res.sendFile(__dirname + "/public/main.html")
 })
 
 app.post('/email_post', (req, res) => {
   console.log(req.body);
+  res.render('email.ejs', {'email' : req.body.email})
 })

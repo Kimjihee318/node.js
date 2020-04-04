@@ -1,0 +1,14 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Email ejs</title>
+</head>
+<body>
+  <h1>Welcome <%= email %></h1>
+  <form action="/email_post" method="post">
+    email: <input name="email" type="text">
+    <button>submit</button>
+  </form>
+</body>
+</html>
