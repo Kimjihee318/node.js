@@ -7,7 +7,15 @@
 <body>
   <form action="/email_post" method="post">
     email: <input name="email" type="text">
-    <button>submit</button>
+    <button class="ajaxsend">submit</button>
   </form>
+  <script>
+    document.querySelector('.ajaxsend').addEventListener('click', () => {
+      let inputdata = document.forms[0].elements[0].value;
+      sendAjax('http://127.0.0.1:3000/ajax_send_email', inputdata)
+    })
+
+
+  </script>
 </body>
 </html>
