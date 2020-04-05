@@ -7,15 +7,34 @@
 <body>
   <form action="/email_post" method="post">
     email: <input name="email" type="text">
-    <button class="ajaxsend">submit</button>
+    <button >submit</button>
   </form>
+  <button id="Btn_SendAjax">Ajax send</button>
+
   <script>
-    // document.querySelector('.ajaxsend').addEventListener('click', () => {
-    //   let inputdata = document.forms[0].elements[0].value;
-    //   sendAjax('http://127.0.0.1:3000/ajax_send_email', inputdata)
-    // })
+    document.querySelector('#Btn_SendAjax').addEventListener('click', () => {
+      // * elements[0] == input text
+      let inputdata = document.forms[0].elements[0].value;
+      // * 보내는 url
+      // * app.js에 새로 구성해 줘야함
+      sendAjax('http://127.0.0.1:3000/ajax_send_email', inputdata)
+    })
 
+    function sendAjax(url, _data) {
+      console.log(_data);
+      let data = {'email' : _data}
+      let xhr = new XMLHttpRequest();
+      xhr.open('POST', url)
 
+      // * send 전에 header 구성 해줘야 함
+      xhr.setRequestHeader('Content-Type', "application/json")
+      // * 서버는 문자만 받는다. 보내기 전에 문자로 보내줘야 함 
+      xhr.send(JSON.stringify(data))
+      xhr.addEventListener('load', () => {
+        console.log(1);
+        console.log(xhr.responseText);
+      })
+    }
   </script>
 </body>
 </html>
