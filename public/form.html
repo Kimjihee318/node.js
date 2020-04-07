@@ -10,6 +10,7 @@
     <button >submit</button>
   </form>
   <button id="Btn_SendAjax">Ajax send</button>
+  <div id="Div_Result"></div>
 
   <script>
     document.querySelector('#Btn_SendAjax').addEventListener('click', () => {
@@ -23,16 +24,20 @@
     function sendAjax(url, _data) {
       console.log(_data);
       let data = {'email' : _data}
+      data = JSON.stringify(data)
       let xhr = new XMLHttpRequest();
       xhr.open('POST', url)
 
       // * send 전에 header 구성 해줘야 함
       xhr.setRequestHeader('Content-Type', "application/json")
       // * 서버는 문자만 받는다. 보내기 전에 문자로 보내줘야 함 
-      xhr.send(JSON.stringify(data))
+      xhr.send(data)
       xhr.addEventListener('load', () => {
         console.log(1);
-        console.log(xhr.responseText);
+        console.log();
+        let result = JSON.parse(xhr.responseText)
+        if(result.result !== 'ok') return
+        document.querySelector("#Div_Result").innerHTML = result.email
       })
     }
   </script>
