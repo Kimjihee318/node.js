@@ -33,11 +33,10 @@
       // * 서버는 문자만 받는다. 보내기 전에 문자로 보내줘야 함 
       xhr.send(data)
       xhr.addEventListener('load', () => {
-        console.log(1);
-        console.log();
         let result = JSON.parse(xhr.responseText)
+        console.log(result);
         if(result.result !== 'ok') return
-        document.querySelector("#Div_Result").innerHTML = result.email
+        document.querySelector("#Div_Result").innerHTML = result.name
       })
     }
   </script>
