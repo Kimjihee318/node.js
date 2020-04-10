@@ -1,5 +1,5 @@
 let App = require('./config')
-let Mysql = require('../app.module/config/mysql')
+let Mysql = require('../app.module/database/mysql')
 let mysqlInstance = new Mysql()
 let connection = mysqlInstance.getConnection()
 
@@ -14,8 +14,9 @@ App.router.post('/', (req, res) => {
   let email = req.body.email
   let resposeData = {}
   
-  
-  connection.query(`'SELECT * FROM user WHERE email=' ${email}';'`, (err, rows) => {
+  // * 변수를 string으로 처리해주지 않아서 오류 
+  // ** SQL 오류라고 하는데 이상한 생각함 그냥 오류라고 하면 그것만 봐라
+  connection.query(`SELECT * FROM user WHERE email = "${email}"`, (err, rows) => {
   // TODO throw 와 console.log 비교
     if(err) { console.log(err);}
     if(rows.length > 0) {
