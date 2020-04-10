@@ -1,3 +1,4 @@
 node_modules
 app.module/database/mysql.js
 app.module/server/mysql.js
+nodeserver.code-workspace
