@@ -1,2 +1,2 @@
 node_modules
-app.module/server/mysql.js
+app.module/config/mysql.js

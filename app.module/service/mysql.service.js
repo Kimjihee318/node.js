@@ -1,4 +1,4 @@
-let Mysql = require('../server/mysql')
+let Mysql = require('../config/mysql')
 
 let mysqlInstance = new Mysql()
 
