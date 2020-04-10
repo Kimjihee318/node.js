@@ -34,9 +34,10 @@
       xhr.send(data)
       xhr.addEventListener('load', () => {
         let result = JSON.parse(xhr.responseText)
-        console.log(result);
-        if(result.result !== 'ok') return
-        document.querySelector("#Div_Result").innerHTML = result.name
+        let resultDiv = document.querySelector("#Div_Result")
+        
+        if(result.result !== 'ok') resultDiv.innerHTML = `your email is not found`
+        else resultDiv.innerHTML = result.name
       })
     }
   </script>

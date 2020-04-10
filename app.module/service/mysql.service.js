@@ -10,14 +10,19 @@ module.exports = function mysqlService(app) {
     let connection = mysqlInstance.getConnection()
 
     connection.query(`SELECT * FROM user WHERE email = "${email}"`, (err, rows) => {
+      // TODO throw 와 console.log 비교
       if(err) throw err
+      
       if(rows.length > 0) {
         resposeData.result = `ok`
         resposeData.name = rows[0].name
-        res.json(resposeData)
       } else {
-        console.log(`none: ${rows[0]}`)
+        resposeData.result = `none`
+        resposeData.name = ''
       }
+      
+      // * 서버의 응답
+      res.json(resposeData)
     });
   })
 }
