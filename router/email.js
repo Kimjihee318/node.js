@@ -8,7 +8,10 @@ let connection = mysqlInstance.getConnection()
 //   console.log(req.body);
 //   res.render('email.ejs', {'email' : req.body.email})
 // })
-
+App.router.post('/', (req, res) => {
+  console.log('get email');
+  res.sendFile(App.path.join(__dirname, '../public/form.html'))
+})
 // * form.html post에서 사용하는 url 구성
 App.router.post('/', (req, res) => {
   let email = req.body.email

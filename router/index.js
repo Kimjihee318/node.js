@@ -1,11 +1,13 @@
 let App = require('./config')
 
-let main = require('./main')
-let email = require('./email')
+// let test = require('./test')
+// let email = require('./email')
+let join = require('./join/index')
 
 // 1. Using router
-App.router.use('/main', main)
-App.router.use('/email', email)
+// App.router.use('/test', test)
+// App.router.use('/email', email)
+App.router.use('/join', join)
 
 module.exports = App.router
 
