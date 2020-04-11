@@ -29,13 +29,10 @@ app.router.post('/', (req, res) => {
     if(err) {
       console.log(err);
       throw err
-      // TODO 맞는것 같은데 return 잘 썼는지 확인할것
+      // TODO
       return
     }
-    console.log('in');
     res.render('join.ejs', {'no' : rows.insertId, 'name': name})
   })
-
-  console.log('out');
 })
 module.exports = app.router
