@@ -6,7 +6,8 @@ let mysqlInstance = new Mysql()
 // * 순서 (req, res)
 app.router.get('/', (req, res) => {
   console.log('get join url');
-  res.sendFile(app.path.join(__dirname, '../../public/join.html'))
+  // res.sendFile(app.path.join(__dirname, '../../public/join.html'))
+  res.render('join.ejs')
 })
 
 app.router.post('/', (req, res) => {
@@ -32,7 +33,7 @@ app.router.post('/', (req, res) => {
       // TODO
       return
     }
-    res.render('join.ejs', {'no' : rows.insertId, 'name': name})
+    res.render('join_res.ejs', {'no' : rows.insertId, 'name': name})
   })
 })
 module.exports = app.router
