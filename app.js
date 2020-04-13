@@ -31,5 +31,5 @@ app.use(router)
 
 // app.use를 이용해 middleware사용
 
-let nodeTest = require('./test/event')
-nodeTest()
+let nodeTest = require('./test/stream')
+// nodeTest()
