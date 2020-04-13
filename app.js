@@ -16,7 +16,6 @@ app.listen(3000, () => {
 // * Set middleware
 app = new service(app, express)
 
-
 app.use(session({
   secret: 'keyboard cat',
   resave: false,
@@ -31,3 +30,6 @@ app.use(flash())
 app.use(router)
 
 // app.use를 이용해 middleware사용
+
+let nodeTest = require('./test/event')
+nodeTest()
