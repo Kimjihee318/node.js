@@ -16,17 +16,26 @@ let router = express.Router()
 
 // import files
 let middleware = require('./middleware/routerless/middleware.app')
+let MongoDB = require('./database')
 let Router = require('./router')
-let Cookies = require('./cookieAndSession/cookie')
-let Session = require('./cookieAndSession/session')
-let Multer = require('./fileUpload/file')
+let Cookies = require('./middleware/cookieAndSession/cookie')
+let Session = require('./middleware/cookieAndSession/session')
+let Multer = require('./middleware/fileUpload/file')
+let login = require('./router/login')
 
-
+// database
+let db 
 // * express server 객체
 let app = express();
 
 // * 포트 속성 설정
 app.set('port', process.env.PORT || 3000)
+
+// * 서버객체 만들기
+let server = http.createServer(app).listen(app.get('port'), () => {
+  console.log('익스프레스로 웹 서버를 실행함');
+  db = new MongoDB()
+})
 
 // * STATIC | 특정 폴더의 파일에 특정 패스로 접근 할 수 있도록 열어줌
 // * public에 파일을 넣어두면 클라이언트에서 path로 요청 할 수 있음
@@ -54,15 +63,17 @@ new Session(router)
 
 // * 라우터
 new Router(router)
+new Promise((res, rej) => {
+  setTimeout(() => {
+    res(db.getDatabase())
+  }, 2000)})
+  .then(res => {
+    login(router, res)
+  })
 app.use('/', router)
 
-// * 서버객체 만들기
-let server = http.createServer(app).listen(app.get('port'), () => {
-  console.log('익스프레스로 웹 서버를 실행함');
-})
-
 // * 다중 서버 접속 허용
-app.use(cors())
+// app.use(cors())
 
 // * 파일 업로드 미들웨어
-new Multer(router)
+// new Multer(router)

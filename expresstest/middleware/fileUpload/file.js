@@ -31,7 +31,6 @@ module.exports = class Multer {
 
       let fileLengthArr = Array.from({length: files.length}, (d, i) => i)
 
-      console.log(fileLengthArr);
       var originalname, 
           filename, 
           mimetype, 
