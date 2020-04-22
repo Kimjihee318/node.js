@@ -6,7 +6,7 @@ module.exports = function router(router, db) {
 
     let paramId = req.body.id || req.query.id
     let paramPassword = parseInt(req.body.password || req.query.password)
-    console.log('---------------------아이디, 패스워드 ---------------------', paramId, paramPassword, typeof(paramPassword));
+    console.log('아이디, 패스워드', paramId, paramPassword, typeof(paramPassword));
     loginService(res, db, paramId, paramPassword)
   })
 }

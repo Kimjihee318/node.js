@@ -14,17 +14,24 @@ let cors = require('cors')
 
 let router = express.Router()
 
-// import files
+// imported files
 let middleware = require('./middleware/routerless/middleware.app')
 let MongoDB = require('./database')
-let Router = require('./router')
+let Mongooose = require('./database/mongoose')
 let Cookies = require('./middleware/cookieAndSession/cookie')
 let Session = require('./middleware/cookieAndSession/session')
 let Multer = require('./middleware/fileUpload/file')
+
+
+// imported router files
+let Router = require('./router')
 let login = require('./router/login')
+let monlogin = require('./router/monlogin')
+let signup = require('./router/signup')
+let monsignup = require('./router/monsignup')
 
 // database
-let db 
+let db, mongoose
 // * express server 객체
 let app = express();
 
@@ -35,6 +42,7 @@ app.set('port', process.env.PORT || 3000)
 let server = http.createServer(app).listen(app.get('port'), () => {
   console.log('익스프레스로 웹 서버를 실행함');
   db = new MongoDB()
+  new Mongooose().dbConnection()
 })
 
 // * STATIC | 특정 폴더의 파일에 특정 패스로 접근 할 수 있도록 열어줌
@@ -69,7 +77,16 @@ new Promise((res, rej) => {
   }, 2000)})
   .then(res => {
     login(router, res)
+    signup(router, res)
   })
+
+setTimeout(() => {
+  let database = new Mongooose().getItems().database
+
+  monlogin(router, database)
+  monsignup(router, database)
+}, 2000)
+
 app.use('/', router)
 
 // * 다중 서버 접속 허용

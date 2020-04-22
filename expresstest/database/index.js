@@ -1,8 +1,9 @@
+let __C = require('../primitives/_constant_')
 let MongoClient = require('mongodb').MongoClient
 
 module.exports = class MongoDB {
   constructor() {
-    let databaseUrl = 'mongodb://localhost:27017/local'
+    let databaseUrl = __C.HOST_URL
     // * 데이터 베이스 연결하기 | connect()
     MongoClient.connect(databaseUrl, (err, db) => {
       if(err) {
@@ -14,15 +15,27 @@ module.exports = class MongoDB {
       this.database = db.db('local')
     })
   }
-  getDatabase() {
-    return this.database
+  addUser(db, id, password, name, callback) {
+    let users = db.collection('users')
+
+    users.insertMany([{"id": id, "password": password, "name": name }], (err, result) => {
+      if(err) callback(err, null)
+
+      if(result.insertedCount > 0) {
+        console.log(`사용자 추가됨 : ${result.insertedCount}`);
+        callback(null, result)
+      } else {
+        console.log(`추가된 레코드가 없음`);
+        callback(null, null)
+      }
+    })
   }
   authUser(db, id, password, callback) {
     console.log('authUser 호출됨')
     // * 컬렉션(테이블) 참조하기 | collection()
     let users = db.collection('users')
 
-    console.log('------------ SELECT *',users.find({}).toArray((err, docs) => {console.log(docs);}));
+    console.log('SELECT *',users.find({}).toArray((err, docs) => {console.log(docs)}))
     // * 문서 찾기 | find()                                    * docs는 DB record
     users.find({"id":id, "password": password}).toArray((err, docs) => {
       if(err) {
@@ -41,5 +54,7 @@ module.exports = class MongoDB {
       }
     })
   }
-
+  getDatabase() {
+    return this.database
+  }
 }
