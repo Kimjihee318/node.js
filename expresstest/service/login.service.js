@@ -1,4 +1,4 @@
-let Database = require('../database')
+let Database = require('../database/mongoDB')
 module.exports = function loginService(res, db, id, password) {
   if(db) {                                    // * callback
     new Database().authUser(db, id, password, (err, docs) => {

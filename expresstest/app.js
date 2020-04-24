@@ -16,22 +16,24 @@ let router = express.Router()
 
 // imported files
 let middleware = require('./middleware/routerless/middleware.app')
-let MongoDB = require('./database')
+let MongoDB = require('./database/mongoDB')
 let Mongooose = require('./database/mongoose')
 let Cookies = require('./middleware/cookieAndSession/cookie')
 let Session = require('./middleware/cookieAndSession/session')
 let Multer = require('./middleware/fileUpload/file')
+let Module = require('./module')
 
 
 // imported router files
 let Router = require('./router')
 let login = require('./router/login')
-let monlogin = require('./router/monlogin')
+let monRouter = require('./router/monRouter')
 let signup = require('./router/signup')
 let monsignup = require('./router/monsignup')
+let SQL =  require('./mysql')
 
 // database
-let db, mongoose
+let db, MongoooseInstance
 // * express server 객체
 let app = express();
 
@@ -42,7 +44,8 @@ app.set('port', process.env.PORT || 3000)
 let server = http.createServer(app).listen(app.get('port'), () => {
   console.log('익스프레스로 웹 서버를 실행함');
   db = new MongoDB()
-  new Mongooose().dbConnection()
+  MongoooseInstance = new Mongooose()
+  MongoooseInstance.dbConnection()
 })
 
 // * STATIC | 특정 폴더의 파일에 특정 패스로 접근 할 수 있도록 열어줌
@@ -81,12 +84,15 @@ new Promise((res, rej) => {
   })
 
 setTimeout(() => {
-  let database = new Mongooose().getItems().database
-
-  monlogin(router, database)
+  let Mongoose = MongoooseInstance.getItems()
+  let database = Mongoose.database
+  let userModel = Mongoose.userModel
+  // monlogin(router, database)
   monsignup(router, database)
+  // new monRouter().userlist(router, database, userModel)
 }, 2000)
 
+SQL(router)
 app.use('/', router)
 
 // * 다중 서버 접속 허용
