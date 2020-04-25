@@ -29,8 +29,8 @@ let Router = require('./router')
 let login = require('./router/login')
 let monRouter = require('./router/monRouter')
 let signup = require('./router/signup')
-let monsignup = require('./router/monsignup')
-let SQL =  require('./mysql')
+let monSignup = require('./router/monsignup')
+let sqlSignup =  require('./router/sqlSignup')
 
 // database
 let db, MongoooseInstance
@@ -88,11 +88,11 @@ setTimeout(() => {
   let database = Mongoose.database
   let userModel = Mongoose.userModel
   // monlogin(router, database)
-  monsignup(router, database)
+  monSignup(router, database)
   // new monRouter().userlist(router, database, userModel)
 }, 2000)
 
-SQL(router)
+sqlSignup(router)
 app.use('/', router)
 
 // * 다중 서버 접속 허용
